@@ -44,10 +44,18 @@ app.delete('/deleteUser/:id', (req, res) => {
       res.status(500).send('Error deleting user');
     });
 });
+app.put('/updateUser/:id', (req, res) => {
+  userModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then(updatedUser => res.json(updatedUser))
+    .catch(error => {
+      console.error(error);
+      res.status(500).send('Error updating user');
+    });
+});
 
 // Serve index.html from the Vue.js build (for all non-API routes)
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'UserTable.vue'));
+  res.sendFile(path.join(__dirname, 'component', 'UserTable.vue'));
 });
 
 // Start the server
